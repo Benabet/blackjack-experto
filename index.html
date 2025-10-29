@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blackjack Expert Trainer - Estrategia Básica Perfecta</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <h1>🎰 Blackjack Expert Trainer</h1>
+            <p class="subtitle">Conviértete en un experto de blackjack memorizando la estrategia básica perfecta</p>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="nav-tabs">
+            <button class="nav-tab active" data-tab="training">📚 Entrenamiento</button>
+            <button class="nav-tab" data-tab="tables">📊 Tablas de Estrategia</button>
+            <button class="nav-tab" data-tab="rules">💡 Reglas Clave</button>
+            <button class="nav-tab" data-tab="exam">🎯 Modo Examen</button>
+        </nav>
+
+        <!-- Tip of the Day -->
+        <div class="tip-of-day" id="tipOfDay"></div>
+
+        <!-- Main Content Area -->
+        <main class="content">
+            <!-- MODO ENTRENAMIENTO -->
+            <section id="training-mode" class="mode-section active">
+                <div class="training-header">
+                    <h2>Modo Entrenamiento</h2>
+                    <div class="stats">
+                        <span class="stat">✅ Aciertos: <strong id="correct">0</strong></span>
+                        <span class="stat">❌ Errores: <strong id="incorrect">0</strong></span>
+                        <span class="stat">📈 Precisión: <strong id="accuracy">0%</strong></span>
+                        <span class="stat">🔥 Racha: <strong id="streak">0</strong></span>
+                    </div>
+                </div>
+
+                <div class="filter-options">
+                    <label>Filtrar por tipo:</label>
+                    <select id="handFilter" class="form-control">
+                        <option value="all">Todas las manos</option>
+                        <option value="hard">Solo Manos Duras</option>
+                        <option value="soft">Solo Manos Suaves</option>
+                        <option value="pair">Solo Pares</option>
+                    </select>
+                    <button class="btn btn--secondary" id="resetStats">🔄 Reiniciar Estadísticas</button>
+                </div>
+
+                <div class="game-area">
+                    <div class="dealer-section">
+                        <h3>Carta del Dealer</h3>
+                        <div class="card dealer-card" id="dealerCard"></div>
+                    </div>
+
+                    <div class="player-section">
+                        <h3>Tu Mano</h3>
+                        <div class="player-cards">
+                            <div class="card player-card" id="playerCard1"></div>
+                            <div class="card player-card" id="playerCard2"></div>
+                        </div>
+                        <div class="hand-info" id="handInfo"></div>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <h3>¿Qué debes hacer?</h3>
+                    <div class="action-buttons" id="actionButtons">
+                        <button class="btn btn--action" data-action="Pedir">🎴 Pedir</button>
+                        <button class="btn btn--action" data-action="Plantarse">✋ Plantarse</button>
+                        <button class="btn btn--action" data-action="Doblar">💰 Doblar</button>
+                        <button class="btn btn--action" data-action="Dividir">✂️ Dividir</button>
+                        <button class="btn btn--action" data-action="Rendirse">🏳️ Rendirse</button>
+                    </div>
+                </div>
+
+                <div class="feedback" id="feedback" style="display: none;"></div>
+
+                <button class="btn btn--primary btn--large" id="nextHand" style="display: none;">Siguiente Mano →</button>
+            </section>
+
+            <!-- TABLAS DE ESTRATEGIA -->
+            <section id="tables-mode" class="mode-section">
+                <h2>Tablas de Estrategia Básica</h2>
+                <p class="description">Estas tablas muestran la jugada óptima en cada situación</p>
+
+                <div class="table-tabs">
+                    <button class="table-tab active" data-table="hard">Manos Duras</button>
+                    <button class="table-tab" data-table="soft">Manos Suaves</button>
+                    <button class="table-tab" data-table="pair">Pares</button>
+                </div>
+
+                <div class="legend">
+                    <div class="legend-item"><span class="legend-color plantarse"></span> Plantarse</div>
+                    <div class="legend-item"><span class="legend-color pedir"></span> Pedir</div>
+                    <div class="legend-item"><span class="legend-color doblar"></span> Doblar</div>
+                    <div class="legend-item"><span class="legend-color dividir"></span> Dividir</div>
+                    <div class="legend-item"><span class="legend-color rendirse"></span> Rendirse</div>
+                </div>
+
+                <div id="strategyTableContainer"></div>
+            </section>
+
+            <!-- REGLAS CLAVE -->
+            <section id="rules-mode" class="mode-section">
+                <h2>Reglas Clave &amp; Consejos</h2>
+                <p class="description">Memoriza estas reglas fundamentales para dominar el blackjack</p>
+
+                <div class="rules-grid">
+                    <div class="rule-card">
+                        <div class="rule-icon">♠️♠️</div>
+                        <h3>Siempre divide Ases y 8s</h3>
+                        <p>Dos 8s suman 16, una de las peores manos. Al dividir, tienes mejores opciones. Dividir Ases te da dos oportunidades de conseguir 21.</p>
+                    </div>
+
+                    <div class="rule-card">
+                        <div class="rule-icon">🚫</div>
+                        <h3>Nunca dividas 10s ni 5s</h3>
+                        <p>20 es una mano excelente, no la arruines. Dos 5s suman 10, perfecto para doblar.</p>
+                    </div>
+
+                    <div class="rule-card">
+                        <div class="rule-icon">💰</div>
+                        <h3>Dobla en 11 siempre (excepto contra As)</h3>
+                        <p>Con 11, tienes gran probabilidad de conseguir 21 o una mano fuerte. Duplica tu apuesta aprovechando esta ventaja.</p>
+                    </div>
+
+                    <div class="rule-card">
+                        <div class="rule-icon">✋</div>
+                        <h3>Plántate en 17 o más (manos duras)</h3>
+                        <p>Con 17 o más, el riesgo de pasarte es demasiado alto. Deja que el dealer juegue su mano.</p>
+                    </div>
+
+                    <div class="rule-card">
+                        <div class="rule-icon">⬇️</div>
+                        <h3>Contra cartas bajas del dealer (2-6)</h3>
+                        <p>Evita pasarte, deja que el dealer se pase. Cuando el dealer muestra 2-6, tiene mayor probabilidad de pasarse.</p>
+                    </div>
+
+                    <div class="rule-card">
+                        <div class="rule-icon">⬆️</div>
+                        <h3>Contra cartas altas del dealer (7-A)</h3>
+                        <p>Pide hasta tener al menos 17. El dealer probablemente tendrá una mano fuerte.</p>
+                    </div>
+
+                    <div class="rule-card">
+                        <div class="rule-icon">🛡️</div>
+                        <h3>Nunca tomes seguro</h3>
+                        <p>Matemáticamente, el seguro es una mala apuesta a largo plazo. Aumenta la ventaja de la casa.</p>
+                    </div>
+
+                    <div class="rule-card">
+                        <div class="rule-icon">🎴</div>
+                        <h3>Mano suave 18 (A-7): Pide contra 9, 10 o As</h3>
+                        <p>Aunque 18 parece bueno, contra cartas altas del dealer necesitas mejorar tu mano.</p>
+                    </div>
+                </div>
+
+                <div class="info-section">
+                    <h3>¿Por qué funciona la estrategia básica?</h3>
+                    <p>La estrategia básica está calculada matemáticamente usando probabilidades. Cada decisión está basada en millones de simulaciones de computadora que determinan la jugada con el menor valor esperado de pérdida.</p>
+                    <p>Al seguir perfectamente la estrategia básica, reduces la ventaja de la casa a aproximadamente <strong>0.5%</strong>, haciendo del blackjack uno de los juegos de casino más favorables para el jugador.</p>
+                </div>
+
+                <div class="info-section">
+                    <h3>Errores Comunes</h3>
+                    <ul>
+                        <li>❌ Jugar por corazonadas o intuición en lugar de seguir la estrategia</li>
+                        <li>❌ Dividir 10s porque "siente bien"</li>
+                        <li>❌ No doblar en situaciones óptimas por miedo a perder más</li>
+                        <li>❌ Plantarse demasiado pronto contra cartas altas del dealer</li>
+                        <li>❌ Tomar decisiones basadas en las cartas de otros jugadores</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- MODO EXAMEN -->
+            <section id="exam-mode" class="mode-section">
+                <div id="examStart">
+                    <h2>Modo Examen</h2>
+                    <p class="description">Pon a prueba tu conocimiento con 20 manos aleatorias. No verás si aciertas hasta el final.</p>
+                    <button class="btn btn--primary btn--large" id="startExam">🎯 Comenzar Examen</button>
+                </div>
+
+                <div id="examInProgress" style="display: none;">
+                    <div class="exam-header">
+                        <h2>Modo Examen</h2>
+                        <div class="exam-progress">
+                            <span>Pregunta <strong id="examQuestion">1</strong> de 20</span>
+                        </div>
+                    </div>
+
+                    <div class="game-area">
+                        <div class="dealer-section">
+                            <h3>Carta del Dealer</h3>
+                            <div class="card dealer-card" id="examDealerCard"></div>
+                        </div>
+
+                        <div class="player-section">
+                            <h3>Tu Mano</h3>
+                            <div class="player-cards">
+                                <div class="card player-card" id="examPlayerCard1"></div>
+                                <div class="card player-card" id="examPlayerCard2"></div>
+                            </div>
+                            <div class="hand-info" id="examHandInfo"></div>
+                        </div>
+                    </div>
+
+                    <div class="actions">
+                        <h3>¿Qué debes hacer?</h3>
+                        <div class="action-buttons" id="examActionButtons">
+                            <button class="btn btn--action" data-action="Pedir">🎴 Pedir</button>
+                            <button class="btn btn--action" data-action="Plantarse">✋ Plantarse</button>
+                            <button class="btn btn--action" data-action="Doblar">💰 Doblar</button>
+                            <button class="btn btn--action" data-action="Dividir">✂️ Dividir</button>
+                            <button class="btn btn--action" data-action="Rendirse">🏳️ Rendirse</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="examResults" style="display: none;">
+                    <h2>Resultados del Examen</h2>
+                    <div class="exam-score" id="examScore"></div>
+                    <div class="exam-analysis" id="examAnalysis"></div>
+                    <div class="exam-review" id="examReview"></div>
+                    <button class="btn btn--primary btn--large" id="retryExam">🔄 Reintentar Examen</button>
+                    <button class="btn btn--secondary btn--large" id="backToTraining">📚 Volver al Entrenamiento</button>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Recuerda: La estrategia básica reduce la ventaja de la casa a ~0.5% | Juega responsablemente</p>
+        </footer>
+    </div>
+
+    <!-- Congratulations Modal -->
+    <div id="congratsModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h2>🎉 ¡Felicitaciones!</h2>
+            <p>¡10 respuestas correctas seguidas! ¡Vas por buen camino!</p>
+            <button class="btn btn--primary" id="closeModal">Continuar</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
